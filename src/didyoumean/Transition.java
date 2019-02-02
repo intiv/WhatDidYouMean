@@ -10,5 +10,11 @@ package didyoumean;
  * @author Inti Velásquez
  */
 public class Transition {
+	char token;
+	State targetState;
 	
+	public Transition(){
+		targetState = new State();
+		
+	}
 }

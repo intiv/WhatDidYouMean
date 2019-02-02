@@ -10,5 +10,15 @@ package didyoumean;
  * @author Inti Velásquez
  */
 public class Automaton {
+	private State initial;
+	
+	public Automaton(){
+		initial = new State();
+	}
+	
+	public State getInitial(){
+		return initial;
+	}
+	
 	
 }

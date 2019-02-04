@@ -5,8 +5,10 @@
  */
 package didyoumean;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -34,6 +36,26 @@ public class Functions {
         
     }
     
-    
+    //genera carita ascii dentro de un folder
+    public void traceroute(){
+        
+        //Creacion de la carpeta con el nombre que le da el usuario
+        JFileChooser fileChooser = new JFileChooser();
+        int status = fileChooser.showSaveDialog(fileChooser);
+        
+        if (status == JFileChooser.APPROVE_OPTION){
+            File directory = fileChooser.getSelectedFile();
+            boolean created = directory.mkdir();
+            if(created){
+                //System.out.println("Archivo creado correctamente");
+            }else{
+                System.err.println("Error con la creacion del archivo");
+            }
+                    
+        }
+        
+        
+        
+    }
     
 }

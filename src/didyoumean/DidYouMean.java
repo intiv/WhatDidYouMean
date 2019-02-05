@@ -22,8 +22,8 @@ public class DidYouMean {
 	 */
 	public static void main(String[] args) {
 		// TODO code application logic here
-                String command = "sl";
-                String correction = "ls";
+                String command = "iv";
+                String correction = "vi";
                 addCorrection(command, correction);
 	}
         

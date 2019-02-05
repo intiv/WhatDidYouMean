@@ -14,9 +14,9 @@ import java.sql.Statement;
  * @author Inti Velásquez
  */
 public class DidYouMean {
-    private static final String url = "jdbc:mysql://localhost:3306/wdym";
-    private static final String userForDB = "admin";
-    private static final String passwordForDB = "admin";
+    private static final String url = "jdbc:mysql://sql3.freemysqlhosting.net:3306/sql3277559";
+    private static final String userForDB = "sql3277559";
+    private static final String passwordForDB = "8BZ3rdNQFc";
 	/**
 	 * @param args the command line arguments
 	 */

@@ -30,7 +30,7 @@ public class Functions {
     }
 
     //funcion para llamar un palindromo
-    public void ls() {
+    public void vi() {
         Random random = new Random();
         System.out.println(this.palindromos.get(random.nextInt(5)));
 

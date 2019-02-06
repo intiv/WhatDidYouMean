@@ -13,8 +13,21 @@ import java.util.ArrayList;
  */
 public class State {
 	boolean decision;
-	ArrayList<Transition> transitions;
-	
+	ArrayList<Transition> transitions = new ArrayList<Transition>();
+
+        public State(boolean decision, ArrayList<Transition> transitions) {
+            this.decision = decision;
+            this.transitions = transitions;
+        }
+
+        public State(boolean decision) {
+            this.decision = decision;
+        }
+
+        public State(ArrayList<Transition> transitions) {
+            this.transitions = transitions;
+        }
+        
 	public State(){
 		decision = false;
 		transitions = new ArrayList();
@@ -41,5 +54,8 @@ public class State {
 		return null;
 	}
 	
+        public void addTransition(Transition transition) {
+            transitions.add(transition);
+        }
 	
 }

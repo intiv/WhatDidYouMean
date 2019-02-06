@@ -11,9 +11,13 @@ package didyoumean;
  */
 public class Automaton {
 	private State initial;
-	
+
+        public Automaton(State initial) {
+            this.initial = initial;
+        }
+        
 	public Automaton(){
-		initial = new State();
+            initial = new State();
 	}
 	
 	public State getInitial(){

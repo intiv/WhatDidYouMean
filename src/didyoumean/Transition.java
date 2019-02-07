@@ -15,6 +15,12 @@ public class Transition {
 	
 	public Transition(){
 		targetState = new State();
-		
 	}
+	
+	public Transition(char token, State targetState) {
+		this.token = token;
+		this.targetState = targetState;
+    }
+	
+	
 }

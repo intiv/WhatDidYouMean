@@ -13,7 +13,20 @@ import java.util.ArrayList;
  */
 public class State {
 	boolean decision;
-	ArrayList<Transition> transitions;
+	ArrayList<Transition> transitions = new ArrayList<Transition>();
+
+	public State(boolean decision, ArrayList<Transition> transitions) {
+		this.decision = decision;
+		this.transitions = transitions;
+	}
+
+	public State(boolean decision) {
+		this.decision = decision;
+	}
+
+	public State(ArrayList<Transition> transitions) {
+		this.transitions = transitions;
+	}
 	
 	public State(){
 		decision = false;
@@ -31,6 +44,10 @@ public class State {
 	public ArrayList<Transition> getTransitions(){
 		return transitions;
 	}
+	
+	public void addTransition(Transition transition) {
+        transitions.add(transition);
+    }
 	
 	public Transition getTransition(char token){
 		for(Transition transition : transitions){

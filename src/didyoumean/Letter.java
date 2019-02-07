@@ -9,12 +9,12 @@ package didyoumean;
  *
  * @author josef
  */
-public class Letra {
+public class Letter {
     char name;
     char leftletter;
     char rightletter;
 
-    public Letra(char name, char leftletter, char rightletter) {
+    public Letter(char name, char leftletter, char rightletter) {
         this.name = name;
         this.leftletter = leftletter;
         this.rightletter = rightletter;

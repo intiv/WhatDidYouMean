@@ -12,14 +12,12 @@ package didyoumean;
 public class Transition {
 	char token;
 	State targetState;
+	boolean isAlternate;
 	
-	public Transition(){
-		targetState = new State();
-	}
-	
-	public Transition(char token, State targetState) {
+	public Transition(char token, State targetState, boolean isAlternate) {
 		this.token = token;
 		this.targetState = targetState;
+		this.isAlternate = isAlternate;
     }
 	
 	

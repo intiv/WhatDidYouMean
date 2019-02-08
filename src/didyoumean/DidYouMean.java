@@ -26,12 +26,8 @@ public class DidYouMean {
 		Automaton test = new Automaton();
 		State q2 = new State(false);
 		State q3 = new State(true);
-		q2.addTransition(new Transition('a', q3));
-		test.current.addTransition(new Transition('b', q2));
-		test.advance('b');
-		test.advance('c');
-		test.advance('b');
-		test.advance('a');
+		q2.addTransition(new Transition('a', q3, false));
+		test.current.addTransition(new Transition('b', q2, false));
 	}
         
     public static void addCorrection (String command, String correction) {

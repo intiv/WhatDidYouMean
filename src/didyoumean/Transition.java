@@ -14,13 +14,23 @@ import java.io.Serializable;
 public class Transition implements Serializable{
 	char token;
 	State targetState;
+	State parentState;
 	boolean isAlternate;
 	
 	public Transition(char token, State targetState, boolean isAlternate) {
 		this.token = token;
 		this.targetState = targetState;
 		this.isAlternate = isAlternate;
-    }
+        }
+
+        public Transition(char token, State targetState, State parentState, boolean isAlternate) {
+            this.token = token;
+            this.targetState = targetState;
+            this.parentState = parentState;
+            this.isAlternate = isAlternate;
+        }
+        
+        
 	
-	
+
 }

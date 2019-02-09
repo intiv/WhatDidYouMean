@@ -15,6 +15,7 @@ import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Scanner;
 
 /**
  *
@@ -29,6 +30,7 @@ public class DidYouMean {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
+    Scanner reader = new Scanner(System.in);
 		// TODO code application logic here
 		Automaton test = null;
 		if(new File("automata.bin").isFile()){
@@ -56,9 +58,27 @@ public class DidYouMean {
 			test.current.addTransition(new Transition('a', q3, false));
 			saveAutomaton(test);
 		}
+    while (true) {
+        System.out.print("> ");
+        reader = new Scanner(System.in);
+        testCommand(test, reader.next());
+    }
 		
 	}	
                 
+
+
+  public static void testCommand(Automaton automaton, String command) {
+        int testResult = automaton.testString(command);
+        if (testResult == 1) {
+            System.out.println("Command found!");
+//        } else if (testResult == 2) {
+//            System.out.println("Did you mean?");
+        } else if (testResult == 0) {
+            System.out.println("No se encontró el comando");
+        }
+    }
+    
     public static void addCorrection (String command, String correction) {
         Statement stmt = null;
         try {

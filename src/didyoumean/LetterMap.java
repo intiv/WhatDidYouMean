@@ -5,13 +5,14 @@
  */
 package didyoumean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Inti Velásquez
  */
-public class LetterMap {
+public class LetterMap implements Serializable{
 	public static ArrayList<Letter> lettersmap=new ArrayList<Letter>();
     public static char arreglo[] ={'q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m'};
     

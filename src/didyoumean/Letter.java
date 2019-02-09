@@ -5,11 +5,13 @@
  */
 package didyoumean;
 
+import java.io.Serializable;
+
 /**
  *
  * @author josef
  */
-public class Letter {
+public class Letter implements Serializable{
     char name;
     char leftletter;
     char rightletter;

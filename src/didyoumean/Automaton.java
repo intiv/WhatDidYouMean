@@ -5,14 +5,17 @@
  */
 package didyoumean;
 
+
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Serializable;
+
 
 /**
  *
  * @author Inti Velásquez
  */
-public class Automaton {
+public class Automaton implements Serializable{
 	private State initial;
 	public State current;
 	private LetterMap map = new LetterMap();
@@ -111,5 +114,16 @@ public class Automaton {
 	public void fail(){
 		System.err.println("Transition failed, returning to initial state");
 	}
-        
+
+	@Override
+	public String toString(){
+		String retVal = "";
+		int estado = 0;
+		retVal += ("Q"+estado+":\n-----\n");
+		for(Transition t : current.transitions){
+			retVal += "Transicion: "+t.token; 
+		}
+		return retVal;
+	}
+
 }

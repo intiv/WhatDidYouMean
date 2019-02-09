@@ -5,13 +5,14 @@
  */
 package didyoumean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Inti Velásquez
  */
-public class State {
+public class State implements Serializable{
 	boolean decision;
 	ArrayList<Transition> transitions = new ArrayList<Transition>();
 

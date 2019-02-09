@@ -8,6 +8,7 @@ package didyoumean;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Scanner;
 
 /**
  *
@@ -28,6 +29,19 @@ public class DidYouMean {
 		State q3 = new State(true);
 		q2.addTransition(new Transition('a', q3, false));
 		test.current.addTransition(new Transition('b', q2, false));
+                Scanner sc=new Scanner(System.in);
+                String bandera="";
+                while (!bandera.equals("exit")){
+                    System.out.print("$ ");
+                    bandera=sc.next();
+                    if(bandera.equals("ls")){
+                        
+                    }else if(bandera.equals("aa")){
+                        
+                    }else if(bandera.equals("bb")){
+  
+                    }
+                }
 	}
         
     public static void addCorrection (String command, String correction) {

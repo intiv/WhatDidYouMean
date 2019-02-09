@@ -5,11 +5,13 @@
  */
 package didyoumean;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Inti Velásquez
  */
-public class Transition {
+public class Transition implements Serializable{
 	char token;
 	State targetState;
 	boolean isAlternate;

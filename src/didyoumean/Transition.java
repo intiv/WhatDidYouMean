@@ -5,16 +5,32 @@
  */
 package didyoumean;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Inti Velásquez
  */
-public class Transition {
+public class Transition implements Serializable{
 	char token;
 	State targetState;
+	State parentState;
+	boolean isAlternate;
 	
-	public Transition(){
-		targetState = new State();
-		
-	}
+	public Transition(char token, State targetState, boolean isAlternate) {
+		this.token = token;
+		this.targetState = targetState;
+		this.isAlternate = isAlternate;
+        }
+
+        public Transition(char token, State targetState, State parentState, boolean isAlternate) {
+            this.token = token;
+            this.targetState = targetState;
+            this.parentState = parentState;
+            this.isAlternate = isAlternate;
+        }
+        
+        
+	
+
 }

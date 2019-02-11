@@ -60,21 +60,21 @@ public class Automaton implements Serializable{
                     char curr = command.charAt(i);
                     Letter letter = map.getLetter(curr);
                     Transition nextTr;
-                    System.out.println(letter.getName());
+//                    System.out.println(letter.getName());
                     if ((nextTr = current.getTransition(letter.getName())) != null) {
                         current = nextTr.targetState;
                         retVal = retVal == 0 ? 1 : retVal;
-                        solution += letter.name;
+                        solution += nextTr.originalToken;
 //                        System.out.println("Advanced succesfully");
                     } else {
                         for(int j = 0; j < current.transitions.size(); j++){
                             Transition tr = current.transitions.get(j);
                             Letter trLetter = map.getLetter(tr.token);
-                            System.out.println("left "+trLetter.leftletter);
-                            System.out.println("left "+trLetter.rightletter);
+//                            System.out.println("left "+trLetter.leftletter);
+//                            System.out.println("left "+trLetter.rightletter);
                             if (!tr.isAlternate && (trLetter.leftletter == letter.name || trLetter.rightletter == letter.name)) {
-                                solution += trLetter.name;
-                                Transition newTransition = new Transition(letter.name, tr.targetState, current, true);
+                                solution += tr.originalToken;
+                                Transition newTransition = new Transition(letter.name, trLetter.name, tr.targetState, current, true);
                                 current.addTransition(newTransition);
                                 tempTransitions.add(newTransition);
                                 current = tr.targetState;
@@ -122,19 +122,51 @@ public class Automaton implements Serializable{
 
             //If normal test didn't reach the decision state, check for inverse string
             current = initial;
+            solution = "";
+            tempTransitions = new ArrayList<Transition>();
             for(int i = command.length() - 1; i >= 0; i--){
                 
                 char curr = command.charAt(i);
                 Letter letter = map.getLetter(curr);
                 Transition nextTr;
-                if ((nextTr = current.getTransition(letter.getName())) != null) {
-                        current = nextTr.targetState;
+                if ((nextTr = current.getTransition(letter.getName())) != null && !nextTr.isAlternate) {
                         solution += letter.name;
+                        
+                        Transition newTransition = new Transition(command.charAt(command.length() - 1 - i), letter.name, nextTr.targetState, current, true);
+                        current.addTransition(newTransition);
+                        tempTransitions.add(newTransition);
+                        current = nextTr.targetState;
 //                        System.out.println("Advanced succesfully");
+                }
+                if(current.isFinal()){
+                    System.out.println("Did you mean '" + solution + "'? y/n");
+                    Scanner reader = new Scanner(System.in);
+                    String resp = reader.next();
+                    if (!resp.equals("y")) {
+                        for (Transition tempTransition : tempTransitions) {
+                            tempTransition.parentState.transitions.remove(tempTransition);
+                        }
+                    } else {
+                        //GUARDAR EN LA BD
+                        Functions functions = new Functions();
+                        if(solution.equals("ls")){
+                                ArrayList<String> corrections = getCorrections();
+                                if(corrections.size() > 0){
+                                        System.out.println("Correcciones:\n-------------");
+                                        for (int j = 0; j < corrections.size(); j++) {
+                                                System.out.println(j+".-"+corrections.get(j));
+                                        }
+                                }else{
+                                        System.out.println("No hay correcciones en la base de datos!");
+                                }
+                        }else if(solution.equals("vi")){
+                                functions.vi();
+                        }else if(solution.equals("traceroute")){
+                                functions.traceroute();
+                        }
                     }
-                    if(current.isFinal()){
-                        return 2;
-                    }
+                    return 2;
+                }
             }
             current = initial;
             return 0;

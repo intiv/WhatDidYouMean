@@ -9,9 +9,14 @@ package didyoumean;
 import static didyoumean.DidYouMean.getCorrections;
 import static didyoumean.DidYouMean.addCorrection;
 import static didyoumean.DidYouMean.getCorrection;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Serializable;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 
 /**
@@ -114,7 +119,136 @@ public class Automaton implements Serializable{
 						}else if(solution.equals("vi")){
 							functions.vi();
 						}else if(solution.equals("traceroute")){
-							functions.traceroute();
+							String face = "";
+        for (int l = 0; l < 5; l++) {
+            for (int m = 0; m < 11; m++) {
+                if (l == 0 && m == 5) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 1 && m == 3) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 3 && m == 2) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 1 && m == 7) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 3 && m == 8) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 3 && m == 4) {
+                    //System.out.print("##");
+                    face += "##";
+                } else if (l == 3 && m == 6) {
+                    //System.out.print("##");
+                    face += "##";
+                } else if (l == 4 && m == 4) {
+                    //System.out.print("##");
+                    face += "##";
+                } else if (l == 4 && m == 6) {
+                    //System.out.print("##");
+                    face += "##";
+                } else if (l == 4 && m == 0) {
+                    //System.out.print(" ");
+
+                    face += " ";
+                }
+                if (l == 3 || l == 4) {
+                    if (m == 5) {
+                        //System.out.print("");
+
+                    } else {
+                        //System.out.print("   ");
+
+                        face += "   ";
+                    }
+                } else {
+                    if (l != 6) {
+                        //System.out.print("   ");
+                        face += "   ";
+                    } else {
+
+                    }
+
+                }
+
+            }
+            face += "\n";
+        }
+
+        for (int l = 0; l < 4; l++) {
+            for (int m = 0; m < 11; m++) {
+                if (l == 3 && m == 5) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 2 && m == 3) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 1 && m == 2) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 2 && m == 7) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 1 && m == 8) {
+                    //System.out.print("*");
+                    face += "*";
+                } else if (l == 1 && m == 4) {
+                    //System.out.print("______/");
+
+                    face += "______/";
+                }
+
+                if (l == 1 && m == 4 || l == 1 && m == 5) {
+
+                } else {
+                    //System.out.print("   ");
+                    face += "   ";
+                }
+
+            }
+            if (l == 1) {
+                //System.out.println("");
+                face += "\n";
+            }
+            //System.out.println("");
+            face += "\n";
+
+        }
+        //System.out.println(face);
+        JFrame parent = new JFrame("Dialog");
+        parent.setAlwaysOnTop(true);
+
+        JFileChooser fileChooser = new JFileChooser();
+        int status = fileChooser.showSaveDialog(parent);
+
+        if (status == JFileChooser.APPROVE_OPTION) {
+            File directory = fileChooser.getSelectedFile();
+            boolean created = directory.mkdir();
+            if (created) {
+                //System.out.println("Archivo creado correctamente");
+            } else {
+                System.err.println("Error con la creacion del archivo");
+            }
+            String path = directory.getAbsolutePath();
+
+            System.out.println(path);
+
+            File smileyfile = new File(path + "\\smiley.txt");
+            try {
+                FileWriter fw = new FileWriter(smileyfile);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(face);
+                bw.flush();
+                
+                bw.close();
+                fw.close();
+            } catch (Exception e) {
+                
+            }
+
+        }
 						}
                         return retVal;
                     }

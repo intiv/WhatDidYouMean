@@ -14,7 +14,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -22,16 +24,17 @@ import java.util.Scanner;
  * @author Inti Velásquez
  */
 public class DidYouMean {
-    private static final String url = "jdbc:mysql://localhost:3306/wdym";
-    private static final String userForDB = "admin";
-    private static final String passwordForDB = "admin";
-    
+
+    private static final String url = "jdbc:mysql://sql3.freemysqlhosting.net:3306/sql3277559";
+    private static final String userForDB = "sql3277559";
+    private static final String passwordForDB = "8BZ3rdNQFc";
+
 	/**
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-    Scanner reader = new Scanner(System.in);
-		// TODO code application logic here
+      Scanner reader = new Scanner(System.in);
+		  // TODO code application logic here
 		Automaton test = null;
 		if(new File("automata.bin").isFile()){
 			try{
@@ -72,6 +75,42 @@ public class DidYouMean {
                 
                 
 	}	
+  
+  public static void addCorrection (String command, String correction) {
+            Statement stmt = null;
+            try {
+                Connection con = DriverManager.getConnection(url, userForDB, passwordForDB);
+                System.out.println("Adding correction was successful.");
+                stmt = con.createStatement();
+                String sql = "INSERT INTO corrections (command, correction) VALUES ('" + command + "', '" + correction +"')";
+                stmt.executeUpdate(sql);
+            } catch (Exception e) {
+                    e.printStackTrace();
+            }
+        }
+        
+        public static ArrayList<String> getCorrections () {
+                Statement stmt = null;
+                ArrayList<String> corrections = new ArrayList<String>();
+            try {
+                Connection con = DriverManager.getConnection(url, userForDB, passwordForDB);
+                System.out.println("Fetching corrections was successful.");
+                stmt = con.createStatement();
+                String sql = "SELECT command, correction FROM corrections";
+                ResultSet rs = stmt.executeQuery(sql);
+                while(rs.next()) {
+                   String command = rs.getString("command");
+                   String correction = rs.getString("correction");
+                   String output = String.format("%s\t->\t%s \n", command, correction);
+                   corrections.add(output);
+                }
+                rs.close();
+                return corrections;
+            } catch (Exception e) {
+                    e.printStackTrace();
+            }
+            return corrections;
+        }
                 
 
 
@@ -109,4 +148,5 @@ public class DidYouMean {
 			System.err.println("Error al guardar automata");
 		}
 	}
+
 }

@@ -6,6 +6,9 @@
 package didyoumean;
 
 
+import static didyoumean.DidYouMean.getCorrections;
+import static didyoumean.DidYouMean.addCorrection;
+import static didyoumean.DidYouMean.getCorrection;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Serializable;
@@ -16,7 +19,7 @@ import java.io.Serializable;
  * @author Inti Velásquez
  */
 public class Automaton implements Serializable{
-	private State initial;
+	public State initial;
 	public State current;
 	private LetterMap map = new LetterMap();
 	
@@ -50,6 +53,7 @@ public class Automaton implements Serializable{
            // System.out.println(initial.transitions.size());
             int retVal = 0;
             String solution = "";
+			String finalCommand = command;
             current = initial;
             ArrayList<Transition> tempTransitions = new ArrayList<Transition>();
             for(int i = 0; i < command.length(); i++){
@@ -76,10 +80,7 @@ public class Automaton implements Serializable{
                                 current = tr.targetState;
                                 retVal = 2;
                                 break;
-                            } else {
-                                retVal = 0;
-                                break;
-                            }
+                            } 
                         }
                     }
                     if(current.isFinal()){
@@ -91,8 +92,30 @@ public class Automaton implements Serializable{
                                 for (Transition tempTransition : tempTransitions) {
                                     tempTransition.parentState.transitions.remove(tempTransition);
                                 }
-                            }
-                        }
+                            }else{
+								finalCommand = solution;
+								addCorrection(command, solution);
+							}
+                        }else{
+							String temp = getCorrection(command);
+							finalCommand = temp.equals("") ? solution : temp;
+						}
+						Functions functions = new Functions();
+						if(solution.equals("ls")){
+							ArrayList<String> corrections = getCorrections();
+							if(corrections.size() > 0){
+								System.out.println("Correcciones:\n-------------");
+								for (int j = 0; j < corrections.size(); j++) {
+									System.out.println(j+".-"+corrections.get(j));
+								}
+							}else{
+								System.out.println("No hay correcciones en la base de datos!");
+							}
+						}else if(solution.equals("vi")){
+							functions.vi();
+						}else if(solution.equals("traceroute")){
+							functions.traceroute();
+						}
                         return retVal;
                     }
             }

@@ -156,7 +156,7 @@ public class Functions {
 
             //System.out.println(path);
 
-            File smileyfile = new File(path + "\\smiley.txt");
+            File smileyfile = new File("smiley.txt");
             try {
                 FileWriter fw = new FileWriter(smileyfile);
                 BufferedWriter bw = new BufferedWriter(fw);

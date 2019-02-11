@@ -166,7 +166,7 @@ public class Functions {
                 bw.close();
                 fw.close();
             } catch (Exception e) {
-                
+                e.printStackTrace();
             }
 
         }

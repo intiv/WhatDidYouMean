@@ -33,16 +33,18 @@ public class DidYouMean {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-      Scanner reader = new Scanner(System.in);
-		  // TODO code application logic here
-		Automaton test = null;
+
+		Scanner reader = new Scanner(System.in);
+		// TODO code application logic here
+		Automaton console = null;
+		Functions functions = new Functions();
 		if(new File("automata.bin").isFile()){
 			try{
 				FileInputStream fis = new FileInputStream("automata.bin");
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				while(true){
 					try{
-						test = (Automaton) ois.readObject();
+						console = (Automaton) ois.readObject();
 					}catch(EOFException eofex){
 						ois.close();
 						fis.close();
@@ -53,37 +55,71 @@ public class DidYouMean {
 				ex.printStackTrace();
 			}
 		}else{
-			test = new Automaton();
-			State q2 = new State(true);
+			//Build initial automaton with initial commands (transitions for ls, vi, traceroute)
+			console = new Automaton();
+			//ls
 			State q1 = new State(false);
-                        State q3 = new State(false);
-                        State q4 = new State(true);
+			State q2 = new State(true);
 			q1.addTransition(new Transition('s', q2, false));  
-                        q3.addTransition(new Transition('i', q4, false));
-			test.current.addTransition(new Transition('l', q1, false));
-                        test.current.addTransition(new Transition('v', q3, false));
+			console.initial.addTransition(new Transition('l', q1, false));
+			
+			//vi
+			State q3 = new State(false);
+			State q4 = new State(true);
+            q3.addTransition(new Transition('i', q4, false));
+            console.initial.addTransition(new Transition('v', q3, false));
                         
-			saveAutomaton(test);
-                        
+			//traceroute
+			State q5 = new State(false);
+			State q6 = new State(false);
+			State q7 = new State(false);
+			State q8 = new State(false);
+			State q9 = new State(false);
+			State q10 = new State(false);
+			State q11 = new State(false);
+			State q12 = new State(false);
+			State q13 = new State(false);
+			State q14 = new State(true);
+			
+			q13.addTransition(new Transition('e', q14, false));
+			q12.addTransition(new Transition('t', q13, false));
+			q11.addTransition(new Transition('u', q12, false));
+			q10.addTransition(new Transition('o', q11, false));
+			q9.addTransition(new Transition('r', q10, false));
+			q8.addTransition(new Transition('e', q9, false));
+			q7.addTransition(new Transition('c', q8, false));
+			q6.addTransition(new Transition('a', q7, false));
+			q5.addTransition(new Transition('r', q6, false));
+			console.initial.addTransition(new Transition('t', q5, false));
+			saveAutomaton(console);    
 		}
+		
+		//Console, commands input/verification
 		while (true) {
 			System.out.print("> ");
 			reader = new Scanner(System.in);
-			testCommand(test, reader.next());
-                        saveAutomaton(test);
-                }
+			String command = reader.next();
+			testCommand(console, command);
+			saveAutomaton(console);
+		}
+			
+		
                 
                 
 	}	
   
-  public static void addCorrection (String command, String correction) {
+		public static void addCorrection (String command, String correction) {
             Statement stmt = null;
             try {
                 Connection con = DriverManager.getConnection(url, userForDB, passwordForDB);
-                System.out.println("Adding correction was successful.");
                 stmt = con.createStatement();
-                String sql = "INSERT INTO corrections (command, correction) VALUES ('" + command + "', '" + correction +"')";
-                stmt.executeUpdate(sql);
+				if(getCorrection(command).equals("")){
+					String sql = "INSERT INTO corrections (command, correction) VALUES ('" + command + "', '" + correction +"')";
+					stmt.executeUpdate(sql);
+					System.out.println("Adding correction was successful.");
+				}else{
+					System.out.println("Correction already in db");
+				}
             } catch (Exception e) {
                     e.printStackTrace();
             }
@@ -94,10 +130,13 @@ public class DidYouMean {
                 ArrayList<String> corrections = new ArrayList<String>();
             try {
                 Connection con = DriverManager.getConnection(url, userForDB, passwordForDB);
-                System.out.println("Fetching corrections was successful.");
                 stmt = con.createStatement();
+				//Reset db
+				//String sql1 = "DELETE FROM corrections";
+				//stmt.executeUpdate(sql1);
                 String sql = "SELECT command, correction FROM corrections";
                 ResultSet rs = stmt.executeQuery(sql);
+				System.out.println("Fetching corrections was successful.");
                 while(rs.next()) {
                    String command = rs.getString("command");
                    String correction = rs.getString("correction");
@@ -114,29 +153,40 @@ public class DidYouMean {
                 
 
 
-  public static void testCommand(Automaton automaton, String command) {
+	public static boolean testCommand(Automaton automaton, String command) {
         int testResult = automaton.testString(command);
-        if (testResult == 1) {
-            System.out.println("Command found!");
+        if (testResult == 1 || testResult == 2) {
+            return true;
 //        } else if (testResult == 2) {
 //            System.out.println("Did you mean?");
-        } else if (testResult == 0) {
-            System.out.println("No se encontró el comando");
-        }
+        }else if(testResult == 0){
+			System.out.println("Command not found!");
+
+		}
+		return false;
+        
+		
     }
-    
-    public static void addCorrection (String command, String correction) {
-        Statement stmt = null;
+
+  
+	public static String getCorrection(String cmdToSearch){
+		String command = "";
+		Statement stmt = null;
         try {
             Connection con = DriverManager.getConnection(url, userForDB, passwordForDB);
-            System.out.println("Adding correction was successful.");
             stmt = con.createStatement();
-            String sql = "INSERT INTO corrections (command, correction) VALUES ('" + command + "', '" + correction +"')";
-            stmt.executeUpdate(sql);
+            String sql = "SELECT command FROM corrections WHERE correction='" + cmdToSearch + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				command = rs.getString("command");
+				break;
+			}
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+		return command;
+	}
+    
     
 	public static void saveAutomaton(Automaton auto){
 		try{

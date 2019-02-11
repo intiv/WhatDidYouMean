@@ -53,16 +53,24 @@ public class DidYouMean {
 			test = new Automaton();
 			State q2 = new State(true);
 			State q1 = new State(false);
-			q1.addTransition(new Transition('s', q2, false));
+                        State q3 = new State(false);
+                        State q4 = new State(true);
+			q1.addTransition(new Transition('s', q2, false));  
+                        q3.addTransition(new Transition('i', q4, false));
 			test.current.addTransition(new Transition('l', q1, false));
+                        test.current.addTransition(new Transition('v', q3, false));
+                        
 			saveAutomaton(test);
+                        
 		}
 		while (true) {
 			System.out.print("> ");
 			reader = new Scanner(System.in);
 			testCommand(test, reader.next());
-		}
-		
+                        saveAutomaton(test);
+                }
+                
+                
 	}	
                 
 

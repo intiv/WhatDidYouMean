@@ -45,6 +45,9 @@ public class Automaton implements Serializable{
          *  if the command was learned, returns 2
          */
 	public int testString(String command){
+            
+            map = new LetterMap();
+           // System.out.println(initial.transitions.size());
             int retVal = 0;
             String solution = "";
             current = initial;
@@ -53,6 +56,7 @@ public class Automaton implements Serializable{
                     char curr = command.charAt(i);
                     Letter letter = map.getLetter(curr);
                     Transition nextTr;
+                    System.out.println(letter.getName());
                     if ((nextTr = current.getTransition(letter.getName())) != null) {
                         current = nextTr.targetState;
                         retVal = retVal == 0 ? 1 : retVal;
@@ -62,6 +66,8 @@ public class Automaton implements Serializable{
                         for(int j = 0; j < current.transitions.size(); j++){
                             Transition tr = current.transitions.get(j);
                             Letter trLetter = map.getLetter(tr.token);
+                            System.out.println("left "+trLetter.leftletter);
+                            System.out.println("left "+trLetter.rightletter);
                             if (!tr.isAlternate && (trLetter.leftletter == letter.name || trLetter.rightletter == letter.name)) {
                                 solution += trLetter.name;
                                 Transition newTransition = new Transition(letter.name, tr.targetState, current, true);

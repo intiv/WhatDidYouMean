@@ -25,9 +25,9 @@ import java.util.Scanner;
  */
 public class DidYouMean {
 
-    private static final String url = "jdbc:mysql://sql3.freemysqlhosting.net:3306/sql3277559";
-    private static final String userForDB = "sql3277559";
-    private static final String passwordForDB = "8BZ3rdNQFc";
+    private static final String url = "jdbc:mysql://remotemysql.com:3306/PBXaLwJ21H?verifyServerCertificate=false&autoReconnect=true&useSSL=false";
+    private static final String userForDB = "PBXaLwJ21H";
+    private static final String passwordForDB = "hPE2MYmim9";
 
     /**
      * @param args the command line arguments

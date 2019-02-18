@@ -278,7 +278,7 @@ public class Automaton implements Serializable {
                         tempTransition.parentState.transitions.remove(tempTransition);
                     }
                 } else {
-                    //GUARDAR EN LA BD
+                    didyoumean.DidYouMean.addCorrection(command, solution);
                     Functions functions = new Functions();
                     if (solution.equals("ls")) {
                         ArrayList<String> corrections = getCorrections();

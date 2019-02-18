@@ -154,9 +154,9 @@ public class Functions {
             }
             String path = directory.getAbsolutePath();
 
-            //System.out.println(path);
+            System.out.println(path);
 
-            File smileyfile = new File("smiley.txt");
+            File smileyfile = new File(path+"/smiley.txt");
             try {
                 FileWriter fw = new FileWriter(smileyfile);
                 BufferedWriter bw = new BufferedWriter(fw);
